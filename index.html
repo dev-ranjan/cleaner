@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to OverflowAlert</title>
+<style>
+  /* Basic styling for the intro page */
+  body {
+    font-family: Arial, sans-serif;
+    background-image: url('2.jpeg'); /* Set initial background image */
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    animation: backgroundAnimation 20s infinite; /* Start the animation */
+    position: relative;
+  }
+  .container {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent white background */
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+  }
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #007bff;
+  }
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #555;
+  }
+  a {
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  a:hover {
+    background-color: #0056b3;
+  }
+
+  /* Buttons for About Us and Contact Us */
+  .top-buttons {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  /* Adjusted style for the buttons */
+  .top-buttons a {
+    background-color: #0056b3; /* Light blue color */
+    margin-left: 10px; /* Add some space between buttons */
+  }
+
+  /* Keyframes for background animation */
+  @keyframes backgroundAnimation {
+    0% {background-image: url('2.jpeg');}
+    25% {background-image: url('download.jpeg');}
+    50% {background-image: url('3.jpeg');}
+    75% {background-image: url('4.jpeg');}
+    100% {background-image: url('2.jpeg');}
+  }
+</style>
+</head>
+<body>
+  <div class="top-buttons">
+    <a href="about.html">About Us</a>
+    <a href="#">Contact Us</a>
+  </div>
+<div class="container">
+
+  <h1>Welcome to OverflowAlert</h1>
+  <p>Click below to get started.</p>
+  <a href="2.html">Get Started</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Municipal Cleaner App</title>
+<!-- Link to Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<style>
+  /* Basic styling for demonstration purposes */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+  }
+  .container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
+  input[type="file"] {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+  #map {
+    height: 300px;
+    width: 100%;
+    margin-top: 20px;
+  }
+  .feedback-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+  }
+  .feedback-popup h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .feedback-popup input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  .feedback-popup .star-rating {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .feedback-popup .star-rating input[type="radio"] {
+    display: none;
+  }
+  .feedback-popup .star-rating label {
+    font-size: 30px;
+    color: #ccc;
+    cursor: pointer;
+  }
+  .feedback-popup .star-rating label:hover,
+  .feedback-popup .star-rating label:hover ~ label {
+    color: #ffc107;
+  }
+  .feedback-popup .star-rating input[type="radio"]:checked ~ label {
+    color: #ffc107;
+  }
+  .feedback-popup button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Municipal Cleaner App</h1>
+
+  <div>
+    <label for="photo">Take Photo:</label>
+    <input type="file" accept="image/*" capture="camera" id="photo">
+  </div>
+
+  <div>
+    <label for="location">Location of Overflow Dust Bins:</label>
+    <input type="text" id="location" placeholder="Enter location..." readonly>
+    <button onclick="getCurrentLocation()">Get Current Location</button>
+  </div>
+
+  <div>
+    <button onclick="uploadData()">Upload</button>
+  </div>
+
+  <div id="map"></div>
+
+  <!-- Feedback Popup -->
+  <div id="feedbackPopup" class="feedback-popup">
+    <!-- Feedback form will be loaded here dynamically -->
+  </div>
+</div>
+
+<!-- Include Leaflet library -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+  var map;
+  var locationInput = document.getElementById('location');
+
+  // Function to get current location
+  function getCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        locationInput.value = latitude + ', ' + longitude;
+        // Update map center
+        map.setView([latitude, longitude], 15);
+      });
+    } else {
+      alert('Geolocation is not supported by this browser.');
+    }
+  }
+
+  // Function to upload data
+  function uploadData() {
+    // Get the uploaded photo
+    const photo = document.getElementById('photo').files[0];
+
+    // Get the location input
+    const location = locationInput.value;
+
+    // Here you would save the data and location in an Excel file
+    // For demonstration purposes, let's just log the data to the console
+    console.log('Uploaded photo:', photo);
+    console.log('Location:', location);
+
+    // Show feedback popup
+    showFeedbackPopup();
+  }
+
+  // Function to show feedback popup
+  function showFeedbackPopup() {
+    // Fetch feedback.html content and insert it into the feedbackPopup div
+    fetch('feedback.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('feedbackPopup').innerHTML = data;
+        document.getElementById('feedbackPopup').style.display = 'block';
+      });
+  }
+
+  // Initialize the map after the page has fully loaded
+  document.addEventListener("DOMContentLoaded", function() {
+    // Create a Leaflet map
+    map = L.map('map').setView([40.712776, -74.005974], 12); // New York City coordinates
+
+    // Add OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+    }).addTo(map);
+  });
+</script>
+</body>
+</html>
